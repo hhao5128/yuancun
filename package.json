@@ -1,6 +1,9 @@
-{
+﻿{
   "name": "yuancun",
   "version": "1.0.0",
   "private": true,
-  "description": "原质存 · 短视频原画质提取下载"
+  "description": "原质存 · 短视频原画质提取下载",
+  "scripts": {
+    "deploy": "wrangler deploy"
+  }
 }
