@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: yuancun
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: node server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: 10000
