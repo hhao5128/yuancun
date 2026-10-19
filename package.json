@@ -1,19 +1,6 @@
 {
-  "name": "media-save",
+  "name": "yuancun",
   "version": "1.0.0",
   "private": true,
-  "description": "原质存 · 短视频平台原画质提取下载",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "deploy": {
-    "vercel": "npx vercel --prod",
-    "render": "Push to GitHub → New Web Service → start: node server.js",
-    "railway": "railway up"
-  }
+  "description": "原质存 · 短视频原画质提取下载"
 }
