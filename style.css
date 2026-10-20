@@ -65,10 +65,10 @@ img, video {
   z-index: 2;
   max-width: 1080px;
   margin: 0 auto;
-  padding: 18px 20px 0;
+  padding: 22px 24px 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
 .brand {
   display: inline-flex;
@@ -81,23 +81,10 @@ img, video {
   display: grid;
   place-items: center;
 }
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.15;
-}
 .brand-name {
   font-weight: 600;
   letter-spacing: -0.02em;
   font-size: 15px;
-}
-.brand-sub {
-  margin-top: 2px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--muted);
 }
 .nav {
   display: flex;
