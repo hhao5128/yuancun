@@ -1,4 +1,4 @@
-/* 原质存 · 原画质解析下载 */
+﻿/* 鍘熻川瀛?路 鍘熺敾璐ㄨВ鏋愪笅杞?*/
 (() => {
   const $ = (id) => document.getElementById(id);
 
@@ -44,7 +44,7 @@
 
   function setLoading(on) {
     submitBtn.disabled = on;
-    btnLabel.textContent = on ? "解析中…" : "解析下载";
+    btnLabel.textContent = on ? "瑙ｆ瀽涓€? : "瑙ｆ瀽涓嬭浇";
     btnSpinner.hidden = !on;
     if (on) {
       errorBox.hidden = true;
@@ -61,30 +61,30 @@
     result.hidden = true;
     errorBox.hidden = false;
     errorBox.classList.add("reveal");
-    errorMsg.textContent = msg || "请检查链接是否有效，或稍后重试。";
+    errorMsg.textContent = msg || "璇锋鏌ラ摼鎺ユ槸鍚︽湁鏁堬紝鎴栫◢鍚庨噸璇曘€?;
     setLoading(false);
     submitBtn.disabled = false;
-    btnLabel.textContent = "解析下载";
+    btnLabel.textContent = "瑙ｆ瀽涓嬭浇";
     btnSpinner.hidden = true;
   }
 
   function extractUrls(text) {
     if (!text) return [];
-    const matches = text.match(/https?:\/\/[^\s，。、；;！!？?"'）)】\]]+/gi) || [];
+    const matches = text.match(/https?:\/\/[^\s锛屻€傘€侊紱;锛?锛?"'锛?銆慭]]+/gi) || [];
     return [...new Set(matches.map((u) => u.replace(/[.,;:]+$/, "")))];
   }
 
   function detectPlatform(url) {
     const u = url.toLowerCase();
-    if (/douyin|iesdouyin|v\.douyin/.test(u)) return { id: "douyin", name: "抖音" };
+    if (/douyin|iesdouyin|v\.douyin/.test(u)) return { id: "douyin", name: "鎶栭煶" };
     if (/tiktok|vm\.tiktok|vt\.tiktok/.test(u)) return { id: "tiktok", name: "TikTok" };
-    if (/xiaohongshu|xhslink|xhs\.com/.test(u)) return { id: "xhs", name: "小红书" };
-    if (/kuaishou|chenzhongtech|gifshow/.test(u)) return { id: "kuaishou", name: "快手" };
-    if (/bilibili|b23\.tv/.test(u)) return { id: "bilibili", name: "哔哩哔哩" };
-    if (/weibo|weibo\.cn|weibo\.com/.test(u)) return { id: "weibo", name: "微博" };
+    if (/xiaohongshu|xhslink|xhs\.com/.test(u)) return { id: "xhs", name: "灏忕孩涔? };
+    if (/kuaishou|chenzhongtech|gifshow/.test(u)) return { id: "kuaishou", name: "蹇墜" };
+    if (/bilibili|b23\.tv/.test(u)) return { id: "bilibili", name: "鍝斿摡鍝斿摡" };
+    if (/weibo|weibo\.cn|weibo\.com/.test(u)) return { id: "weibo", name: "寰崥" };
     if (/instagram|instagr\.am/.test(u)) return { id: "instagram", name: "Instagram" };
     if (/(twitter|x)\.com|t\.co/.test(u)) return { id: "twitter", name: "Twitter / X" };
-    return { id: "generic", name: "通用" };
+    return { id: "generic", name: "閫氱敤" };
   }
 
   async function fetchJSON(url, timeout = 18000) {
@@ -106,7 +106,7 @@
     }
   }
 
-  /** 尝试多个 CORS 代理，提高静态站可用性 */
+  /** 灏濊瘯澶氫釜 CORS 浠ｇ悊锛屾彁楂橀潤鎬佺珯鍙敤鎬?*/
   const CORS_PROXIES = [
     (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
     (u) => `https://corsproxy.io/?encodeURIComponent=${encodeURIComponent(u)}`,
@@ -114,8 +114,7 @@
   ];
 
   async function fetchJSONViaProxies(target, timeout = 18000) {
-    // 先直连
-    try {
+    // 鍏堢洿杩?    try {
       const direct = await fetchJSON(target, 12000);
       if (direct && typeof direct === "object" && !direct.__raw) return direct;
       if (direct && direct.__raw && direct.__raw.trim().startsWith("{")) {
@@ -133,7 +132,7 @@
         }
       } catch (_) { /* next */ }
     }
-    throw new Error("无法连接解析服务，请稍后重试或更换链接。");
+    throw new Error("鏃犳硶杩炴帴瑙ｆ瀽鏈嶅姟锛岃绋嶅悗閲嶈瘯鎴栨洿鎹㈤摼鎺ャ€?);
   }
 
   function extFromUrl(url, fallback = "mp4") {
@@ -172,9 +171,9 @@
   }
 
   /* ---------- parsers ---------- */
-  /** 抖音 / TikTok */
+  /** 鎶栭煶 / TikTok */
   async function parseDouyinTikTok(url, platform) {
-    // tikwm 同时支持抖音与 TikTok
+    // tikwm 鍚屾椂鏀寔鎶栭煶涓?TikTok
     const endpoints = [
       `https://tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`,
       `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`,
@@ -189,13 +188,13 @@
         const isImages = Array.isArray(d.images) && d.images.length > 0;
         const videoUrl = d.hdplay || d.play || d.wmplay || d.video?.play_addr?.url_list?.[0];
         const cover = d.cover || d.origin_cover || d.video?.cover?.url_list?.[0];
-        const title = d.title || d.desc || "原画质视频";
+        const title = d.title || d.desc || "鍘熺敾璐ㄨ棰?;
 
         if (isImages) {
           return {
             type: "images",
             platform: platform.name,
-            title: d.title || d.desc || "原画质图片",
+            title: d.title || d.desc || "鍘熺敾璐ㄥ浘鐗?,
             desc: d.title || "",
             cover: d.images[0],
             images: d.images,
@@ -217,18 +216,18 @@
         }
       } catch (_) { /* next */ }
     }
-    throw new Error("该抖音 / TikTok 链接解析失败，请更新链接后重试。");
+    throw new Error("璇ユ姈闊?/ TikTok 閾炬帴瑙ｆ瀽澶辫触锛岃鏇存柊閾炬帴鍚庨噸璇曘€?);
   }
 
-  /** 小红书 */
+  /** 灏忕孩涔?*/
   async function parseXhs(url, platform) {
-    // 多个社区接口轮询
+    // 澶氫釜绀惧尯鎺ュ彛杞
     const candidates = [
       `https://api.xhscdn.com/?url=${encodeURIComponent(url)}`,
       `https://api.douyin.wtf/api?url=${encodeURIComponent(url)}&minimal=true`,
     ];
 
-    // 先用通用 HTML 解析思路：通过代理抓页面 meta
+    // 鍏堢敤閫氱敤 HTML 瑙ｆ瀽鎬濊矾锛氶€氳繃浠ｇ悊鎶撻〉闈?meta
     for (const ep of candidates) {
       try {
         const data = await fetchJSONViaProxies(ep);
@@ -239,7 +238,7 @@
           }
           return null;
         };
-        const title = pick(data, ["title", "data.title", "note.title", "result.title"]) || "小红书笔记";
+        const title = pick(data, ["title", "data.title", "note.title", "result.title"]) || "灏忕孩涔︾瑪璁?;
         const images = pick(data, ["images", "data.images", "note.images", "image_list"]) || [];
         const video = pick(data, ["video", "data.video", "note.video", "videoUrl", "video_url"]);
         const cover = pick(data, ["cover", "data.cover", "image", "images.0"]) || (Array.isArray(images) ? images[0] : null);
@@ -270,13 +269,13 @@
       } catch (_) { /* next */ }
     }
 
-    // 兜底：抓取页面 og 标签
+    // 鍏滃簳锛氭姄鍙栭〉闈?og 鏍囩
     const og = await parseViaOg(url, platform);
     if (og) return og;
-    throw new Error("小红书解析失败。请复制完整分享口令（含链接）后重试。");
+    throw new Error("灏忕孩涔﹁В鏋愬け璐ャ€傝澶嶅埗瀹屾暣鍒嗕韩鍙ｄ护锛堝惈閾炬帴锛夊悗閲嶈瘯銆?);
   }
 
-  /** 快手 */
+  /** 蹇墜 */
   async function parseKuaishou(url, platform) {
     const endpoints = [
       `https://api.douyin.wtf/api?url=${encodeURIComponent(url)}&minimal=true`,
@@ -288,7 +287,7 @@
         const d = data?.data || data;
         const video = d?.video || d?.play || d?.hdplay || d?.video_url;
         const images = d?.images;
-        const title = d?.title || d?.desc || "快手作品";
+        const title = d?.title || d?.desc || "蹇墜浣滃搧";
         const cover = d?.cover || d?.origin_cover;
 
         if (Array.isArray(images) && images.length) {
@@ -319,14 +318,14 @@
     return parseViaOg(url, platform);
   }
 
-  /** B 站 / 微博 / 通用 OG 标签解析 */
+  /** B 绔?/ 寰崥 / 閫氱敤 OG 鏍囩瑙ｆ瀽 */
   async function parseViaOg(url, platform) {
     try {
       const html = await fetchHtml(url);
       const title =
         matchMeta(html, ["og:title", "twitter:title"]) ||
         (html.match(/<title[^>]*>([^<]+)<\/title>/i) || [])[1] ||
-        "原画质内容";
+        "鍘熺敾璐ㄥ唴瀹?;
       const video =
         matchMeta(html, ["og:video", "og:video:url", "og:video:secure_url", "twitter:player:stream"]) ||
         matchSrc(html, /<video[^>]+src="([^"]+)"/i);
@@ -358,7 +357,7 @@
         };
       }
     } catch (_) { /* ignore */ }
-    throw new Error("暂未能提取到原画质地址。可尝试换分享链接，或稍后重试。");
+    throw new Error("鏆傛湭鑳芥彁鍙栧埌鍘熺敾璐ㄥ湴鍧€銆傚彲灏濊瘯鎹㈠垎浜摼鎺ワ紝鎴栫◢鍚庨噸璇曘€?);
   }
 
   function matchMeta(html, keys) {
@@ -411,9 +410,9 @@
     }
   }
 
-  /** 哔哩哔哩 / 微博 优先 OG，再兜底通用 */
+  /** 鍝斿摡鍝斿摡 / 寰崥 浼樺厛 OG锛屽啀鍏滃簳閫氱敤 */
   async function parseBilibiliOrWeibo(url, platform) {
-    // 尝试常见无水印 / 原画接口
+    // 灏濊瘯甯歌鏃犳按鍗?/ 鍘熺敾鎺ュ彛
     const apis = [
       `https://api.douyin.wtf/api?url=${encodeURIComponent(url)}&minimal=true`,
     ];
@@ -423,7 +422,7 @@
         const d = data?.data || data;
         const video = d?.video || d?.play || d?.nwm_video_url || d?.video_url;
         const images = d?.images || d?.image_list;
-        const title = d?.title || d?.desc || platform.name + "内容";
+        const title = d?.title || d?.desc || platform.name + "鍐呭";
         if (Array.isArray(images) && images.length) {
           return {
             type: "images",
@@ -452,7 +451,7 @@
   }
 
   async function parseGeneric(url, platform) {
-    // 通用：先试聚合接口，再 OG
+    // 閫氱敤锛氬厛璇曡仛鍚堟帴鍙ｏ紝鍐?OG
     try {
       const data = await fetchJSONViaProxies(
         `https://api.douyin.wtf/api?url=${encodeURIComponent(url)}&minimal=true`
@@ -460,7 +459,7 @@
       const d = data?.data || data;
       const video = d?.video || d?.play || d?.nwm_video_url;
       const images = d?.images;
-      const title = d?.title || d?.desc || "原画质内容";
+      const title = d?.title || d?.desc || "鍘熺敾璐ㄥ唴瀹?;
       if (Array.isArray(images) && images.length) {
         return {
           type: "images",
@@ -489,11 +488,11 @@
 
   async function parseUrl(url) {
     const platform = detectPlatform(url);
-    statusText.textContent = `正在识别 ${platform.name} 内容…`;
+    statusText.textContent = `姝ｅ湪璇嗗埆 ${platform.name} 鍐呭鈥;
 
-    // 优先走同源 /api/parse（自托管服务，更稳）
+    // 浼樺厛璧板悓婧?/api/parse锛堣嚜鎵樼鏈嶅姟锛屾洿绋筹級
     try {
-      statusText.textContent = `正在解析 ${platform.name} …`;
+      statusText.textContent = `姝ｅ湪瑙ｆ瀽 ${platform.name} 鈥;
       const local = await fetchJSON(`/api/parse?url=${encodeURIComponent(url)}`, 22000);
       if (local && local.ok && local.data && (local.data.video || local.data.images?.length || local.data.cover)) {
         return local.data;
@@ -522,7 +521,7 @@
   /* ---------- download ---------- */
   async function downloadFile(url, filename) {
     try {
-      // 优先走代理拿 blob，避免跨域导致无法另存为
+      // 浼樺厛璧颁唬鐞嗘嬁 blob锛岄伩鍏嶈法鍩熷鑷存棤娉曞彟瀛樹负
       const blob = await fetchBlob(url);
       const objectUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -532,9 +531,9 @@
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(objectUrl), 4000);
-      showToast("已开始下载原画质文件");
+      showToast("宸插紑濮嬩笅杞藉師鐢昏川鏂囦欢");
     } catch {
-      // 兜底：直接打开
+      // 鍏滃簳锛氱洿鎺ユ墦寮€
       const a = document.createElement("a");
       a.href = url;
       a.download = filename;
@@ -543,7 +542,7 @@
       document.body.appendChild(a);
       a.click();
       a.remove();
-      showToast("已在新窗口打开，请右键另存为");
+      showToast("宸插湪鏂扮獥鍙ｆ墦寮€锛岃鍙抽敭鍙﹀瓨涓?);
     }
   }
 
@@ -566,89 +565,87 @@
 
   function renderResult(payload) {
     currentPayload = payload;
-    platformTag.textContent = payload.platform || "内容";
-    resultTitle.textContent = payload.title || "未命名内容";
+    platformTag.textContent = payload.platform || "鍐呭";
+    resultTitle.textContent = payload.title || "鏈懡鍚嶅唴瀹?;
     resultDesc.textContent = payload.desc || payload.author || "";
-    const qLabel = payload.quality || (payload.type === "images" ? "原图" : "原画质");
+    const qLabel = payload.quality || (payload.type === "images" ? "鍘熷浘" : "鍘熺敾璐?);
     qualityNote.textContent =
       payload.type === "images"
-        ? `${qLabel} · 共 ${payload.images?.length || 1} 张`
+        ? `${qLabel} 路 鍏?${payload.images?.length || 1} 寮燻
         : qLabel;
     if (payload.qualityNote) {
-      qualityNote.textContent += " · " + payload.qualityNote;
+      qualityNote.textContent += " 路 " + payload.qualityNote;
       qualityNote.title = payload.qualityNote;
     }
 
-    // 预览
+    // 棰勮
     if (payload.type === "video" && payload.video) {
       previewImg.hidden = true;
       previewVideo.hidden = false;
       previewVideo.src = payload.video;
       previewVideo.poster = payload.cover || "";
       mediaBadge.hidden = false;
-      mediaBadge.textContent = `VIDEO · ${qLabel}`;
+      mediaBadge.textContent = `VIDEO 路 ${qLabel}`;
     } else if (payload.cover) {
       previewVideo.hidden = true;
       previewVideo.removeAttribute("src");
       previewImg.hidden = false;
       previewImg.src = payload.cover;
       mediaBadge.hidden = false;
-      mediaBadge.textContent = payload.type === "images" ? `IMAGES · ${qLabel}` : `IMAGE · ${qLabel}`;
+      mediaBadge.textContent = payload.type === "images" ? `IMAGES 路 ${qLabel}` : `IMAGE 路 ${qLabel}`;
     } else {
       previewImg.hidden = true;
       previewVideo.hidden = true;
       mediaBadge.hidden = true;
     }
 
-    // 下载区
-    downloadStack.innerHTML = "";
+    // 涓嬭浇鍖?    downloadStack.innerHTML = "";
 
     if (payload.type === "video" && payload.video) {
       const row = document.createElement("div");
       row.className = "dl-row";
       row.innerHTML = `
         <div class="dl-info">
-          <div class="dl-label">下载视频（${escapeHtml(qLabel)}）</div>
+          <div class="dl-label">涓嬭浇瑙嗛锛?{escapeHtml(qLabel)}锛?/div>
           <div class="dl-sub">${escapeHtml(shortUrl(payload.video))}</div>
         </div>
       `;
       const btn = document.createElement("button");
       btn.className = "dl-btn";
       btn.type = "button";
-      btn.textContent = "下载视频";
+      btn.textContent = "涓嬭浇瑙嗛";
       btn.addEventListener("click", () => {
         btn.disabled = true;
-        btn.textContent = "下载中…";
+        btn.textContent = "涓嬭浇涓€?;
         downloadFile(payload.video, fileNameFrom(payload.title, payload.video, "video")).finally(() => {
           btn.disabled = false;
-          btn.textContent = "下载视频";
+          btn.textContent = "涓嬭浇瑙嗛";
         });
       });
       row.appendChild(btn);
       downloadStack.appendChild(row);
 
-      // 备选画质
-      if (Array.isArray(payload.alternates) && payload.alternates.length) {
+      // 澶囬€夌敾璐?      if (Array.isArray(payload.alternates) && payload.alternates.length) {
         payload.alternates.forEach((alt, idx) => {
           if (!alt?.url) return;
           const altRow = document.createElement("div");
           altRow.className = "dl-row";
           altRow.innerHTML = `
             <div class="dl-info">
-              <div class="dl-label">备选画质 · ${escapeHtml(alt.label || "备用")}</div>
+              <div class="dl-label">澶囬€夌敾璐?路 ${escapeHtml(alt.label || "澶囩敤")}</div>
               <div class="dl-sub">${escapeHtml(shortUrl(alt.url))}</div>
             </div>
           `;
           const altBtn = document.createElement("button");
           altBtn.className = "dl-btn secondary";
           altBtn.type = "button";
-          altBtn.textContent = "下载";
+          altBtn.textContent = "涓嬭浇";
           altBtn.addEventListener("click", () => {
             altBtn.disabled = true;
-            altBtn.textContent = "下载中…";
+            altBtn.textContent = "涓嬭浇涓€?;
             downloadFile(alt.url, fileNameFrom(payload.title + "-alt", alt.url, "video")).finally(() => {
               altBtn.disabled = false;
-              altBtn.textContent = "下载";
+              altBtn.textContent = "涓嬭浇";
             });
           });
           altRow.appendChild(altBtn);
@@ -661,14 +658,14 @@
         musicRow.className = "dl-row";
         musicRow.innerHTML = `
           <div class="dl-info">
-            <div class="dl-label">下载音频${payload.quality && /杜比|Hi-Res/.test(payload.quality) ? "（高规格）" : ""}</div>
+            <div class="dl-label">涓嬭浇闊抽${payload.quality && /鏉滄瘮|Hi-Res/.test(payload.quality) ? "锛堥珮瑙勬牸锛? : ""}</div>
             <div class="dl-sub">${escapeHtml(shortUrl(String(payload.music)))}</div>
           </div>
         `;
         const mBtn = document.createElement("button");
         mBtn.className = "dl-btn secondary";
         mBtn.type = "button";
-        mBtn.textContent = "下载音频";
+        mBtn.textContent = "涓嬭浇闊抽";
         mBtn.addEventListener("click", () => {
           downloadFile(String(payload.music), fileNameFrom(payload.title + "-audio", String(payload.music), "video"));
         });
@@ -681,7 +678,7 @@
       const label = document.createElement("div");
       label.className = "dl-label";
       label.style.marginBottom = "2px";
-      label.textContent = `下载图片（原画质 · ${payload.images.length} 张）`;
+      label.textContent = `涓嬭浇鍥剧墖锛堝師鐢昏川 路 ${payload.images.length} 寮狅級`;
       downloadStack.appendChild(label);
 
       const grid = document.createElement("div");
@@ -690,10 +687,10 @@
       payload.images.forEach((imgUrl, idx) => {
         const cell = document.createElement("button");
         cell.type = "button";
-        cell.title = `下载第 ${idx + 1} 张`;
+        cell.title = `涓嬭浇绗?${idx + 1} 寮燻;
         const img = document.createElement("img");
         img.src = imgUrl;
-        img.alt = `图片 ${idx + 1}`;
+        img.alt = `鍥剧墖 ${idx + 1}`;
         img.loading = "lazy";
         cell.appendChild(img);
         cell.addEventListener("click", () => {
@@ -708,17 +705,17 @@
       allRow.style.marginTop = "8px";
       allRow.innerHTML = `
         <div class="dl-info">
-          <div class="dl-label">批量保存全部图片</div>
-          <div class="dl-sub">逐张下载原画质文件</div>
+          <div class="dl-label">鎵归噺淇濆瓨鍏ㄩ儴鍥剧墖</div>
+          <div class="dl-sub">閫愬紶涓嬭浇鍘熺敾璐ㄦ枃浠?/div>
         </div>
       `;
       const allBtn = document.createElement("button");
       allBtn.className = "dl-btn";
       allBtn.type = "button";
-      allBtn.textContent = `全部下载（${payload.images.length}）`;
+      allBtn.textContent = `鍏ㄩ儴涓嬭浇锛?{payload.images.length}锛塦;
       allBtn.addEventListener("click", async () => {
         allBtn.disabled = true;
-        allBtn.textContent = "下载中…";
+        allBtn.textContent = "涓嬭浇涓€?;
         for (let i = 0; i < payload.images.length; i++) {
           try {
             await downloadFile(
@@ -729,7 +726,7 @@
           } catch (_) { /* continue */ }
         }
         allBtn.disabled = false;
-        allBtn.textContent = `全部下载（${payload.images.length}）`;
+        allBtn.textContent = `鍏ㄩ儴涓嬭浇锛?{payload.images.length}锛塦;
       });
       allRow.appendChild(allBtn);
       downloadStack.appendChild(allRow);
@@ -739,7 +736,7 @@
       const empty = document.createElement("p");
       empty.style.color = "var(--muted)";
       empty.style.margin = "0";
-      empty.textContent = "未找到可下载的媒体地址。";
+      empty.textContent = "鏈壘鍒板彲涓嬭浇鐨勫獟浣撳湴鍧€銆?;
       downloadStack.appendChild(empty);
     }
 
@@ -762,7 +759,7 @@
       const parsed = new URL(u);
       const path =
         parsed.pathname.length > 36
-          ? parsed.pathname.slice(0, 36) + "…"
+          ? parsed.pathname.slice(0, 36) + "鈥?
           : parsed.pathname;
       return parsed.hostname.replace(/^www\./, "") + path;
     } catch {
@@ -784,29 +781,27 @@
   });
 
   pasteBtn.addEventListener("click", async () => {
-    // 优先 Clipboard API（需 HTTPS 或 localhost）
-    try {
+    // 浼樺厛 Clipboard API锛堥渶 HTTPS 鎴?localhost锛?    try {
       if (navigator.clipboard && navigator.clipboard.readText) {
         const text = await navigator.clipboard.readText();
         if (text && text.trim()) {
           input.value = text;
           clearBtn.hidden = false;
-          showToast("已粘贴");
+          showToast("宸茬矘璐?);
           return;
         }
       }
     } catch {
-      /* 非安全上下文或用户拒绝 → 走手动粘贴 */
+      /* 闈炲畨鍏ㄤ笂涓嬫枃鎴栫敤鎴锋嫆缁?鈫?璧版墜鍔ㄧ矘璐?*/
     }
 
-    // 回退：聚焦输入框，提示系统粘贴
-    input.focus();
+    // 鍥為€€锛氳仛鐒﹁緭鍏ユ锛屾彁绀虹郴缁熺矘璐?    input.focus();
     input.select?.();
     const isMobile = /iPhone|iPad|Android|Mobile/i.test(navigator.userAgent);
     showToast(
       isMobile
-        ? "请长按上方输入框，选择「粘贴」"
-        : "请按 Ctrl+V（Mac 为 Cmd+V）粘贴"
+        ? "璇烽暱鎸変笂鏂硅緭鍏ユ锛岄€夋嫨銆岀矘璐淬€?
+        : "璇锋寜 Ctrl+V锛圡ac 涓?Cmd+V锛夌矘璐?
     );
   });
 
@@ -827,48 +822,47 @@
     e.preventDefault();
     const text = input.value.trim();
     if (!text) {
-      showToast("请先粘贴分享链接或口令");
+      showToast("璇峰厛绮樿创鍒嗕韩閾炬帴鎴栧彛浠?);
       input.focus();
       return;
     }
 
     const urls = extractUrls(text);
     if (!urls.length) {
-      showError("没有识别到有效链接。请复制完整的分享文案（其中应包含 https 链接）。");
+      showError("娌℃湁璇嗗埆鍒版湁鏁堥摼鎺ャ€傝澶嶅埗瀹屾暣鐨勫垎浜枃妗堬紙鍏朵腑搴斿寘鍚?https 閾炬帴锛夈€?);
       return;
     }
 
     setLoading(true);
-    statusText.textContent = "正在解析内容…";
+    statusText.textContent = "姝ｅ湪瑙ｆ瀽鍐呭鈥?;
 
     let lastError = null;
     for (const url of urls) {
       try {
-        statusText.textContent = `正在解析 ${detectPlatform(url).name} …`;
+        statusText.textContent = `姝ｅ湪瑙ｆ瀽 ${detectPlatform(url).name} 鈥;
         const payload = await parseUrl(url);
         if (payload && (payload.video || payload.images?.length || payload.cover)) {
           setLoading(false);
           renderResult(payload);
           return;
         }
-        lastError = new Error("未找到媒体资源");
+        lastError = new Error("鏈壘鍒板獟浣撹祫婧?);
       } catch (err) {
         lastError = err;
       }
     }
 
-    showError(lastError?.message || "解析失败，请更换链接后重试。");
+    showError(lastError?.message || "瑙ｆ瀽澶辫触锛岃鏇存崲閾炬帴鍚庨噸璇曘€?);
   });
 
-  // 粘贴自动填入
+  // 绮樿创鑷姩濉叆
   input.addEventListener("paste", () => {
     setTimeout(() => {
       clearBtn.hidden = !input.value.trim();
     }, 0);
   });
 
-  // 局域网地址提示（手机可访问）
-  (async function loadLan() {
+  // 灞€鍩熺綉鍦板潃鎻愮ず锛堟墜鏈哄彲璁块棶锛?  (async function loadLan() { return;
     try {
       const data = await fetchJSON("/api/health", 5000);
       const httpUrls = data?.lan || [];
@@ -892,7 +886,7 @@
       if (!isSecure && httpsUrls.length) {
         if (tipP) {
           tipP.innerHTML =
-            "要用<strong>一键粘贴</strong>，请改用 <strong>HTTPS</strong> 地址打开（首次选「继续访问」信任证书）";
+            "瑕佺敤<strong>涓€閿矘璐?/strong>锛岃鏀圭敤 <strong>HTTPS</strong> 鍦板潃鎵撳紑锛堥娆￠€夈€岀户缁闂€嶄俊浠昏瘉涔︼級";
         }
         httpsUrls.forEach((u) => {
           const a = document.createElement("a");
@@ -915,7 +909,7 @@
       } else {
         if (tipP) {
           tipP.innerHTML =
-            "手机访问：与电脑连<strong>同一 WiFi</strong>。推荐 <strong>HTTPS</strong> 地址（粘贴可用）";
+            "鎵嬫満璁块棶锛氫笌鐢佃剳杩?strong>鍚屼竴 WiFi</strong>銆傛帹鑽?<strong>HTTPS</strong> 鍦板潃锛堢矘璐村彲鐢級";
         }
         [...httpsUrls, ...httpUrls].forEach((u) => {
           const a = document.createElement("a");
@@ -936,3 +930,4 @@
     }
   })();
 })();
+
