@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>鍘熻川瀛?路 鍘熺敾璐ㄤ繚瀛?/title>
-  <meta name="description" content="绮樿创鍒嗕韩閾炬帴锛屼竴閿繚瀛樼煭瑙嗛涓庡浘鐗囩殑鍘熺敾璐ㄦ枃浠躲€? />
+  <title>原质存 · 原画质保存</title>
+  <meta name="description" content="粘贴分享链接，一键保存短视频与图片的原画质文件。" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -22,36 +22,36 @@
           <path d="M16 7v12M11 15l5 5 5-5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </span>
-      <span class="brand-name">鍘熻川瀛?/span>
+      <span class="brand-name">原质存</span>
     </a>
     <nav class="nav">
-      <a href="#how">浣跨敤璇存槑</a>
-      <a href="#platforms">鏀寔骞冲彴</a>
+      <a href="#how">使用说明</a>
+      <a href="#platforms">支持平台</a>
     </nav>
   </header>
 
   <main>
     <section class="hero">
-      <p class="eyebrow">鍘熺敾璐?路 鏃犳按鍗?路 鍗冲瓨鍗宠蛋</p>
-      <h1>鎶婂枩娆㈢殑鍐呭<br /><span class="grad">鍘熸牱鐣欎笅</span></h1>
-      <p class="sub">绮樿创鐭棰戝钩鍙扮殑鍒嗕韩閾炬帴锛岃嚜鍔ㄨВ鏋愬浘鐗囦笌瑙嗛鐨勫師濮嬬敾璐ㄥ湴鍧€锛屼竴閿繚瀛樺埌鏈湴銆?/p>
+      <p class="eyebrow">原画质 · 无水印 · 即存即走</p>
+      <h1>把喜欢的内容<br /><span class="grad">原样留下</span></h1>
+      <p class="sub">粘贴短视频平台的分享链接，自动解析图片与视频的原始画质地址，一键保存到本地。</p>
 
       <form class="panel" id="parseForm" autocomplete="off">
-        <label class="sr-only" for="shareInput">鍒嗕韩閾炬帴</label>
+        <label class="sr-only" for="shareInput">分享链接</label>
         <div class="input-wrap">
           <textarea
             id="shareInput"
             name="share"
             rows="3"
-            placeholder="绮樿创鍒嗕韩鍙ｄ护鎴栭摼鎺ワ紝渚嬪锛歨ttps://v.douyin.com/xxxx/ 鎴栨暣娈靛垎浜枃妗?
+            placeholder="粘贴分享口令或链接，例如：https://v.douyin.com/xxxx/ 或整段分享文案"
             spellcheck="false"
           ></textarea>
-          <button type="button" class="clear-btn" id="clearBtn" hidden aria-label="娓呯┖">娓呯┖</button>
+          <button type="button" class="clear-btn" id="clearBtn" hidden aria-label="清空">清空</button>
         </div>
         <div class="panel-actions">
-          <button type="button" class="ghost" id="pasteBtn">绮樿创</button>
+          <button type="button" class="ghost" id="pasteBtn">粘贴</button>
           <button type="submit" class="primary" id="submitBtn">
-            <span class="btn-label">瑙ｆ瀽涓嬭浇</span>
+            <span class="btn-label">解析下载</span>
             <span class="spinner" hidden></span>
           </button>
         </div>
@@ -59,27 +59,27 @@
 
       <div class="hint-row">
         <span class="dot"></span>
-        <span>鏀寔鎶栭煶 / TikTok / 灏忕孩涔?/ 蹇墜 / B绔?/ 寰崥 绛変富娴佸钩鍙?/span>
+        <span>支持抖音 / TikTok / 小红书 / 快手 / B站 / 微博 等主流平台</span>
       </div>
     </section>
 
     <section class="result" id="result" hidden>
       <div class="result-card" id="resultCard">
         <div class="result-media">
-          <img id="previewImg" alt="棰勮" hidden />
+          <img id="previewImg" alt="预览" hidden />
           <video id="previewVideo" controls playsinline hidden></video>
           <div class="media-badge" id="mediaBadge" hidden></div>
         </div>
         <div class="result-body">
           <div class="result-meta">
-            <div class="platform-tag" id="platformTag">骞冲彴</div>
-            <h2 id="resultTitle">鍐呭鏍囬</h2>
+            <div class="platform-tag" id="platformTag">平台</div>
+            <h2 id="resultTitle">内容标题</h2>
             <p class="result-desc" id="resultDesc"></p>
           </div>
           <div class="download-stack" id="downloadStack"></div>
           <div class="result-foot">
-            <span id="qualityNote">鍘熺敾璐ㄦ枃浠?/span>
-            <button type="button" class="text-btn" id="againBtn">鍐嶈В鏋愪竴涓?/button>
+            <span id="qualityNote">原画质文件</span>
+            <button type="button" class="text-btn" id="againBtn">再解析一个</button>
           </div>
         </div>
       </div>
@@ -88,57 +88,57 @@
     <section class="status" id="status" hidden>
       <div class="status-inner">
         <div class="spinner dark"></div>
-        <p id="statusText">姝ｅ湪瑙ｆ瀽鈥?/p>
+        <p id="statusText">正在解析…</p>
       </div>
     </section>
 
     <section class="error-box" id="errorBox" hidden>
       <div class="error-inner">
-        <p class="error-title">瑙ｆ瀽澶辫触</p>
-        <p class="error-msg" id="errorMsg">璇锋鏌ラ摼鎺ユ槸鍚︽湁鏁堬紝鎴栫◢鍚庨噸璇曘€?/p>
-        <button type="button" class="ghost" id="retryBtn">閲嶆柊灏濊瘯</button>
+        <p class="error-title">解析失败</p>
+        <p class="error-msg" id="errorMsg">请检查链接是否有效，或稍后重试。</p>
+        <button type="button" class="ghost" id="retryBtn">重新尝试</button>
       </div>
     </section>
 
     <section class="features" id="how">
       <div class="feature">
         <div class="feature-num">01</div>
-        <h3>绮樿创閾炬帴</h3>
-        <p>澶嶅埗骞冲彴鍒嗕韩鏂囨鎴栫函閾炬帴锛岀矘璐村埌涓婃柟杈撳叆妗嗗嵆鍙€?/p>
+        <h3>粘贴链接</h3>
+        <p>复制平台分享文案或纯链接，粘贴到上方输入框即可。</p>
       </div>
       <div class="feature">
         <div class="feature-num">02</div>
-        <h3>鑷姩瑙ｆ瀽</h3>
-        <p>璇嗗埆骞冲彴涓庡唴瀹圭被鍨嬶紝鎻愬彇鍘熷鍥剧墖 / 瑙嗛鍦板潃銆?/p>
+        <h3>自动解析</h3>
+        <p>识别平台与内容类型，提取原始图片 / 视频地址。</p>
       </div>
       <div class="feature">
         <div class="feature-num">03</div>
-        <h3>鍘熻川淇濆瓨</h3>
-        <p>鎸夊師鐢昏川涓嬭浇鍒版湰鍦帮紝鍥剧墖鏀寔鎵归噺锛岃棰戞棤鎹熶繚瀛樸€?/p>
+        <h3>原质保存</h3>
+        <p>按原画质下载到本地，图片支持批量，视频无损保存。</p>
       </div>
     </section>
 
     <section class="platforms" id="platforms">
-      <h2>鏀寔骞冲彴</h2>
+      <h2>支持平台</h2>
       <ul class="platform-grid">
-        <li>鎶栭煶</li>
+        <li>抖音</li>
         <li>TikTok</li>
-        <li>灏忕孩涔?/li>
-        <li>蹇墜</li>
-        <li>鍝斿摡鍝斿摡</li>
-        <li>寰崥</li>
+        <li>小红书</li>
+        <li>快手</li>
+        <li>哔哩哔哩</li>
+        <li>微博</li>
         <li>Instagram</li>
         <li>Twitter / X</li>
       </ul>
-      <p class="platform-note">浠呯敤浜庝繚瀛樹綘鏈夋潈璁块棶鐨勫叕寮€鍐呭锛岃灏婇噸鍒涗綔鑰呯増鏉冦€?/p>
+      <p class="platform-note">仅用于保存你有权访问的公开内容，请尊重创作者版权。</p>
     </section>
   </main>
 
   <footer class="footer">
     <div class="footer-inner">
-      <span>鍘熻川瀛?路 鍘熺敾璐ㄦ彁鍙?/span>
-      <span class="footer-sep">路</span>
-      <span>鏈湴瑙ｆ瀽锛屼笉涓婁紶鍐呭</span>
+      <span>原质存 · 原画质提取</span>
+      <span class="footer-sep">·</span>
+      <span>本地解析，不上传内容</span>
     </div>
   </footer>
 
@@ -147,4 +147,3 @@
   <script src="app.js"></script>
 </body>
 </html>
-
