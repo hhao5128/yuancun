@@ -65,10 +65,10 @@ img, video {
   z-index: 2;
   max-width: 1080px;
   margin: 0 auto;
-  padding: 22px 24px 0;
+  padding: 18px 20px 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 .brand {
   display: inline-flex;
@@ -81,10 +81,23 @@ img, video {
   display: grid;
   place-items: center;
 }
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.15;
+}
 .brand-name {
   font-weight: 600;
   letter-spacing: -0.02em;
   font-size: 15px;
+}
+.brand-sub {
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--muted);
 }
 .nav {
   display: flex;
@@ -104,21 +117,21 @@ img, video {
   z-index: 1;
   max-width: var(--max);
   margin: 0 auto;
-  padding: 72px 24px 28px;
+  padding: 40px 22px 12px;
   text-align: center;
 }
 .eyebrow {
-  margin: 0 0 18px;
+  margin: 0 0 12px;
   color: var(--muted);
-  font-size: 13px;
-  letter-spacing: .08em;
+  font-size: 12px;
+  letter-spacing: .1em;
   text-transform: uppercase;
   font-weight: 500;
 }
 .hero h1 {
   margin: 0;
-  font-size: clamp(40px, 7vw, 64px);
-  line-height: 1.05;
+  font-size: clamp(34px, 7vw, 56px);
+  line-height: 1.12;
   letter-spacing: -0.045em;
   font-weight: 700;
 }
@@ -593,8 +606,8 @@ button {
 
 /* Footer */
 .footer {
-  margin-top: 88px;
-  padding: 28px 24px 40px;
+  margin-top: 64px;
+  padding: 22px 20px 32px;
   border-top: 1px solid var(--line);
 }
 .footer-inner {
@@ -602,11 +615,16 @@ button {
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
   color: var(--muted);
-  font-size: 12.5px;
+  font-size: 12px;
 }
-.footer-sep { opacity: .5; }
+.footer-private {
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
+.footer-sep { opacity: .45; }
 
 /* Spinner */
 .spinner {
